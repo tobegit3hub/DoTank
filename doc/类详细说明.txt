@@ -1,0 +1,107 @@
+各class具体写法可以参考以下文字说明,有问题请尽快提出
+////////////////7.18//////////////////
+
+
+
+class CBullet:
+
+1.构造时不需要tank的position和direction。
+
+2.构造函数里m_Condition一定要设为DEAD。
+
+3.写Move时 (只有condition为alive才能move，所以写Move时不用判断m_Conditon) ，先擦去本来m_Map位置上的BULLET（用SetBlock()设为ROAD），然后用switch移去对应的下一个位置。
+
+3.5.之后还要判断是否ROAD,如果是则直接改m_Map为BULLET.
+
+4.之后还要判断是否WALL，如果是则重设自己的conditon和该点处的m_Map为ROAD。
+
+5.之后还要判断是否BULLET，如果是则用FindBullet()找到那个对象，重设自己和那个对象的condition，设置该点的m_Map为ROAD。
+
+6.之后还要判断是否AITANK,如果是则用FindAiTank()找到那个对象，重设自己和那个AiTank的condition和m_Blood，设置该点的m_Map为ROAD。
+
+7.之后还要判断是否MYTANK，如果是则重设自己的condition，减那个MyTank的m_Blood，在判断blood是否为0，如果是则设那个MyTank的condition和m_Map为ROAD，否则设m_Map为MyTank。
+
+
+
+
+
+class CTank:
+
+1.m_Position和m_Direction随便初始化，因为后面CMyTank和CAiTank初始值不一样，m_Condition最好都设为INACTIVE。
+
+2.还要初始化m_Blood为1。
+
+3.构造函数里要new m_NumberOfBullet个CBullet对象，以后访问的子弹就是这个动态数组了。（要提一下那个命名，有p的一般是指针，p for pointer嘛，就是那个数组，方便以后使用）
+
+3.5.析构时要delete new的m_pBullet。
+
+4.Move函数需要CMyTank和CAiTank来重写
+
+5.写Shoot()，首先作循环for(int i=0;i<m_NumberOfBullet)遍历所有子弹的condition，看有木有m_Condition是DEAD的。
+
+6.如果有，就在那个if里面继续写，先把那个子弹设为ALIVE，position和direction与该tank一致。
+
+
+
+class CMyTank:
+
+1.初始化m_Blood可以不为1
+
+3.写Move（主要参考CBullet的），首先判断m_Direction与传进来的Direction是否相同，如果不是则只改变m_Direction。
+
+4.如果方向相同，如果是则用SetBlock()设置原位置为ROAD，然后根据switch走一步，在每个case内用IsRoad()判断一下，如果如果新位置是ROAD,则SetBlock为MYTANK。
+
+5.如果IsRoad()为假，还要判断IsBullet()是否为真，如果是则用FindBullet()设置该子弹对象为DEAD，自己m_Blood减一，在判断m_Blood是否为0，如果是则SetBlock为ROAD，否则SetBlock为MYTANK。
+
+
+
+class CAiTank:
+
+1.Move函数只有上面的第5点不一样，最后那里“如果是则SetBlock为ROAD，否则SetBlock为MYTANK。”改为“否则SetBlock为AITANK”即可。
+
+
+
+
+
+
+
+
+
+class CMap：
+
+1.构造函数的参数都可以直接赋给成员变量。
+
+2.由传进来的Length，Width动态创建二维数组m_Map。同样的动态创建CMyTank对象和CAiTank对象，哦，那个m_Map还要文件读入。
+
+3.因此要写析构函数，循环析构m_Map。
+
+4.ActiveAiTnak()用于激活一个敌人tank（不用管什么时候激活），直接循环找INACTVE的，找到一个就退出。
+
+5.写UpdateMap()，先都设为ROAD,画WALL和BASE和BORDER,然后遍历所有MyTank和AiTank和其子弹填到m_Map中。
+
+
+
+
+
+class CGame:
+
+1.StartGame()时，创建CMap对象。同时UpdateMap（）。
+
+2.EndGame()时，销毁CMap对象。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
