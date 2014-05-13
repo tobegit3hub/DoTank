@@ -1,14 +1,13 @@
-0.�Լ�����ᱨ������Ϊicon����·�����ԣ��ѱ�����DoTank.rc��54�У���ΪIDI_ICON1 ICON "..\\res\\Bullet1.ico"
-1.����˵����Extern.h�����г�Ա����
-2.������ע�͵��ڱ��ʱҪ�ر�ע��
-3.��֪��������ʲô�û򲻻�д�ģ����������һ������
-4.д��ʱ��Ҫ�����Լ���ע�ͣ���//���������//ע��
+0.自己编译会报错，因为icon绝对路径不对，把报错的DoTank.rc第54行，改为IDI_ICON1 ICON "..\\res\\Bullet1.ico"
+1.类型说明在Extern.h，还有成员变量
+2.用中文注释的在编程时要特别注意
+3.不知道函数有什么用或不会写的，尽快提出，一起讨论
+4.写的时候要加上自己的注释，在//后面继续用//注释
 //////////////////7.17//////////////////
 
-CGame����ĳ��
-CMap(��ĳ)
-CTank��CMyTank, CAiTank(��ĳ����ĳ)
-CBullet(��ĳ����ĳ��
-
+CGame（陈某）
+CMap(许某)
+CTank，CMyTank, CAiTank(吴某，宁某)
+CBullet(黄某，杨某）
 
 

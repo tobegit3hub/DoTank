@@ -1,4 +1,4 @@
-Joystick£º
+JoystickÂ£Âº
 1 SELECT
 2 LSPIN
 3 RSPIN
